@@ -1,11 +1,24 @@
 # GitPitch In-60-Seconds - A Very Short Tutorial.
 #
 
+
+
 #
 # Theme Setting
 # Doc: https://gitpitch.com/docs/settings/theme
 #
-theme : template
+theme : simple
+theme : night
+
+# code settings
+
+theme-code : [ "Source Code Pro" ]
+code-line-numbers : true
+# highlight : Dark
+highlight : Github
+# highlight: Monokai
+# highlight: Ascetic
+# highlight: mono-blue
 
 #
 # Theme-Override Setting
@@ -17,7 +30,8 @@ theme-override: assets/css/PITCHME.css
 # Logo Setting
 # https://gitpitch.com/docs/settings/logo
 #
-logo : assets/img/logo.png
+# logo : assets/img/logo.png
+logo : assets/img/white-kite-logo.svg
 logo-position : top-left
 
 #
