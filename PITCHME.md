@@ -1,4 +1,4 @@
-# Let's Get Started
+# Thinking in Dictionaries
 
 ---
 
@@ -8,6 +8,22 @@
 
 ---?color=linear-gradient(180deg, white 75%, black 25%)
 @title[Customize Slide Layout]
+
+
+---
+### 1 - code example
+
+---
+@code[python](python_test.py)
+
+---
+### 2 - code example from a file
+
+---
+### 3 - code example from a github gist
+
+---
+
 
 @snap[west span-50]
 ## Customize the Layout
