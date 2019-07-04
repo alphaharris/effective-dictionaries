@@ -12,16 +12,35 @@
 testing123
 
 ---
-### 1 - code example
+### 1 - code example in fences
+
+
 
 ---
-@code[python](python_test.py)
+
+```python
+import pandas as pd
+ 
+my_dict = {
+    'hello': 'world',
+}
+ 
+for k, v in my_dict:
+    print('key', k)
+    print('value',  v)
+```
 
 ---
 ### 2 - code example from a file
 
 ---
+@code[python](python_test.py)
+
+---
 ### 3 - code example from a github gist
+
+---
+@gist[python](alphaharris/dd12dd2c95d32ebd51d6a880d25809f6)
 
 ---
 
