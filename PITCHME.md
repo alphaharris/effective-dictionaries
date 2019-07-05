@@ -1,6 +1,7 @@
 
 
-# Thinking in Dictionaries {  }
+## Thinking in Dictionaries 
+## {  }
 
 ---
 
@@ -200,16 +201,17 @@ Note:
 ---
 
 ```python
+import requests
 
-        r = requests.get('some_dat_site')
-        r.json # what's the difference here
-        r.text
+r = requests.get('some_dat_site')
+r.json # what's the difference here
+r.text
 
-        my_data = r.json
-        type(my_data)
-        # dict()
+my_data = r.json
+type(my_data)
+# dict()
 
-        # Okay, we have a dict! Now what?
+# Okay, we have a dict! Now what?
 
 ```
 
@@ -242,20 +244,46 @@ Note:
 ---
 
 ---
-### 4 - Formatted slide code example
+### Comps and Enhancements
 
 ---
+
+```python
+
+# list comps are easy to recognize
+new_list = [x.name for x in my_list]
+
+# How cool are dictionary comps??
+dict_from_list = { x.name : x for x in my_list}
+
+```
+
 ---
+
+
+### defaultdict
+
+#### Why do we need this?
+
+
+### OrderedDict
+
+#### Yes things are ordered now
+
+#### But most code in the wild won't be
+
+#### Better to be explicit with OrderedDict
+
+#### Lots of examples, like BeautifulSoup, lxml, etc.
+
 ---
+
+
 
 ## Add Some Slide Candy
 
-![](assets/img/presentation.png)
-
 ---?color=linear-gradient(180deg, white 75%, black 25%)
 @title[Customize Slide Layout]
-
-testing123
 
 ---
 
