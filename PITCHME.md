@@ -5,6 +5,11 @@
 
 ---
 
+![](assets/img/skipping-steps.jpg)
+
+---
+
+
 ### Aaron Harris
 
 ### aaron@kite.com
