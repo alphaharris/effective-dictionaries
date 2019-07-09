@@ -1,8 +1,8 @@
 
 
-## Thinking in Dictionaries 
+## Effective Dictionaries
 ## {  }
-
+testing
 ---
 
 ![](assets/img/skipping-steps.jpg)
@@ -17,14 +17,11 @@
 #### Dev Advocate + Consultant
 (Python, JavaScript, Automation)
 
-
 (Bartending, Jury Duty ...)
 
 Note:
 
-- Offers a wide-range of enhanced presentation **tools** and **features**
-- Both on the desktop and in the cloud
-- Learn more on the GitPitch website at https://gitpitch.com
+- Notes for each slide may go here
 
 ---
 
@@ -89,17 +86,17 @@ Note:
 
 ```python
         
-        my_dict = {
-            'one': 1,
-            'two': 2,
-            'three': 3,
-            }
-        
-        for k, v in my_dict:
-            print('key: ', k)
-            print('value: ',  v)
+my_dict = {
+    'one': 1,
+    'two': 2,
+    'three': 3,
+    }
 
-        # how do we look?
+for k, v in my_dict:
+    print('key: ', k)
+    print('value: ',  v)
+
+# how do we look?
 
 ```
 @[2-6](Basic dictionary definition)
@@ -115,20 +112,53 @@ Note:
 
 ```python
 
-        my_dict = {
-            'one': 1,
-            'two': 2,
-            'three': 3,
-            }
+my_dict = {
+    'one': 1,
+    'two': 2,
+    'three': 3,
+    }
 
-        # .items() .keys() .values()
-        for k, v in my_dict.items():  
-            print('key: ', k)
-            print('value: ',  v)
+# .items() .keys() .values()
+for k, v in my_dict.items():  
+    print('key: ', k)
+    print('value: ',  v)
 
-        # .keys() is nice for readability
+# .keys() is nice for readability
 
 ```
+
+---
+
+---
+
+`for` is going to look for an iterator  `__iter__`
+
+"Return an iterator over the keys of the dictionary. This is a shortcut for iter(d.keys())."
+
+- Nothing magical is happening here, we're just getting d.keys()
+
+- Also note that list(my_dict) will return a list of keys
+
+---
+
+### So, what is .items() ??
+
+"Return a new view of the dictionary’s items ((key, value) pairs)."
+
+---
+
+### What the heck is a view??
+Is that even python?
+
+"They provide a dynamic view on the dictionary’s entries, which means that when the dictionary changes, 
+the view reflects these changes."
+
+"Keys and values are iterated over in insertion order."
+
+
+Gothya - 
+"Iterating views while adding or deleting entries in the dictionary may raise a RuntimeError or fail to iterate over all entries."
+"Changed in version 3.7: Dictionary order is guaranteed to be insertion order."
 
 ---
 
@@ -224,13 +254,45 @@ type(my_data)
 
 ```python
 
-        # We want to do something with that data
+# We want to do something with that data
 
-        # send specific values to airtable
+# send specific values to airtable
 
-        # get summary statistics from Pandas
+# get summary statistics from Pandas
 
 ```
+
+--- 
+
+### Curating with comprehensions
+
+- We have our data, but we need rows
+- Maybe we're sending this straight to a spreadsheet
+- Maybe we just want readable rows... for reasons!
+
+### Basic Dict comprehension template
+
+- Like .items, .keys, .values, this is worthy of memorization
+- Dict comps are maybe more powerful than list comps
+- Same reason that dicts are sometimes more powerful than lists
+
+### Okay the pattern!
+
+```python
+
+[ x for x in iterable ]
+
+{ k : v for x in iterable}
+
+{x: x**2 for x in (2, 4, 6)}
+# this is sadly the only example I found in the psf docs :(
+
+
+```
+
+- that iterable could be an expression that returns an iterable (like a lambda)
+
+- most dict comps in the wild are not nearly that clean
 
 ---
 
@@ -240,16 +302,43 @@ type(my_data)
 
 ### The worst case - Dash + Mapbox
 
+- Defining a massive dictionary
+- Don't realize it's a comprehension until line 150
 ---
 
 ![](assets/img/dict_example.png)
 
 ---
 
----
+### Learning from the documentation
+
+When it comes to built-ins, clicking through to source in your IDE is only
+going to give you some fake stubs (at least in the case of PyCharm)
+
+- We must rely on our old friend, the documentation
+
+- Perhaps more importantly, run your own experiments and see how it behaves
+(or doens't behave) for yourself.
+
+"There is currently only one standard mapping type, the dictionary. "
+
+
 
 ---
-### Comps and Enhancements
+
+### The all powerful .get() method
+
+"Return the value for key if key is in the dictionary, else default. 
+If default is not given, it defaults to None...
+### ...so that this method never raises a KeyError."
+
+---
+
+"If `__missing__()` is not defined, KeyError is raised."
+- missing can be defined, but better to use `defaultdict` or `.get()`
+
+---
+### Collections and Best Practices
 
 ---
 
@@ -268,68 +357,43 @@ dict_from_list = { x.name : x for x in my_list}
 
 ### defaultdict
 
-#### Why do we need this?
+- A perfectly good alternative to .get()
+- The name says what it does (supplies a default)
+- `None` doesn't break your code
 
 
 ### OrderedDict
 
-#### Yes things are ordered now
+- Since 3.7, dictionaries are ordered out of the box
+- Mixed blessing, since most Python will be < 3.7 for some time
+- Especially in Scientific domains where Python 2 (!) is *still* popular
 
-#### But most code in the wild won't be
+- Better to use OrderedDict to let everyone know what's happening
+- If your logic depends on that ordering, it should be clear how and why
+- Even better to write code that doesn't rely on order
 
-#### Better to be explicit with OrderedDict
+#### Plenty of Real World packages use OrderedDict
+- Parsers (LXML, etc.)
+- Data APIs (along with other classes, helps to abstract away paging)
+- BeautfulSoup 
 
-#### Lots of examples, like BeautifulSoup, lxml, etc.
-
----
-
-
-
-## Add Some Slide Candy
-
----?color=linear-gradient(180deg, white 75%, black 25%)
-@title[Customize Slide Layout]
 
 ---
 
-@snap[west span-50]
-## Customize the Layout
-@snapend
+## Conclusion 
 
-@snap[east span-50]
-![](assets/img/presentation.png)
-@snapend
+- Focus on readability
+- Remember, remember ... the members: `.items()`, `.keys()`, `.values()`
+- Practice dictionary comps `{k:v for x in iterable}`
+- `Code[to][the][interface]`
 
-@snap[south span-100 text-white]
-Snap Layouts let you create custom slide designs directly within your markdown.
-@snapend
+Thanks! APUG <3 <3
 
----?color=linear-gradient(90deg, #E27924 65%, white 35%)
-@title[Add A Little Imagination]
+---
 
-@snap[north-west h4-white]
-#### And start presenting...
-@snapend
+## Q/A  
 
-@snap[west span-55]
-@ul[spaced text-white]
-- You will be amazed
-- What you can achieve
-- *With a little imagination...*
-- And **GitPitch Markdown**
-@ulend
-@snapend
+- Feel free to volunteer an answer
+- I can only speak to my own experience
 
-@snap[east span-45]
-@img[shadow](assets/img/conference.png)
-@snapend
-
----?image=assets/img/presenter.jpg
-
-@snap[north span-100 h2-white]
-## Now It's Your Turn
-@snapend
-
-@snap[south span-100 text-06]
-[Click here to jump straight into the interactive feature guides in the GitPitch Docs @fa[external-link]](https://gitpitch.com/docs/getting-started/tutorial/)
-@snapend
+---
