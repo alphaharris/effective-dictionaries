@@ -1,8 +1,5 @@
+## Effective Dictionaries {...}
 
-
-## Effective Dictionaries
-## {  }
-testing
 ---
 
 ![](assets/img/skipping-steps.jpg)
@@ -19,14 +16,10 @@ testing
 
 (Bartending, Jury Duty ...)
 
-Note:
-
-- Notes for each slide may go here
-
 ---
 
-##### This Presentation (now): 
-##### https://gitpitch.com/alphaharris/thinking-in-dictionaries
+#### This Presentation (now): 
+#### https://gitpitch.com/alphaharris/thinking-in-dictionaries
 
 ------
 
@@ -39,12 +32,11 @@ Note:
 
 ---
 
-#### Solved a problem with a dictionary this week
-
+#### Defined a dictionary today?
 
 ---
 
-#### Solved a problem with a dictionary this week
+#### Solved a problem with a dictionary this week?
 
 @ul[spaced text-white]
 - Performance
@@ -52,8 +44,6 @@ Note:
     - now[we][can][do][this]
 - Better Code
 @ulend
-
-
 
 ---
 
@@ -73,10 +63,9 @@ Note:
 
 ---
 
-### Defining and Iterating
+## Defining and Iterating
 
 Note: 
-
 - Dictionaries are a powerful structure
 - Best way to learn is to get some practice!
 ---
@@ -99,14 +88,16 @@ for k, v in my_dict:
 # how do we look?
 
 ```
-@[2-6](Basic dictionary definition)
-@[8-10](Yes, there is a problem here...)
-@[12](What's the error?)
 
+@[2-6](Basic dictionary definition)
+@[8-10](Iterating through a dictionary)
+@[12](Yes! This will produce an error, but what?)
 
 ---
 
-#### ValueError: too many values to unpack (expected 2)
+```Python
+# ValueError: too many values to unpack (expected 2)
+```
 
 ---
 
@@ -127,9 +118,13 @@ for k, v in my_dict.items():
 
 ```
 
+Note:
+Show code again for review
+
 ---
 
 ---
+### Why this is happening - 
 
 `for` is going to look for an iterator  `__iter__`
 
@@ -160,9 +155,17 @@ Gothya -
 "Iterating views while adding or deleting entries in the dictionary may raise a RuntimeError or fail to iterate over all entries."
 "Changed in version 3.7: Dictionary order is guaranteed to be insertion order."
 
+Note: 
+- The Python specification relies on abstractions like views
+- You may not be exposed to these abstractions unless you read the docs
+
 ---
 
-### Kinds of Data (Nested, Relational)
+## Schools of Data (Relational v. Non-relational)
+
+Note:
+- Non-relational is a misnomer
+- Prefer Nested, Tree-like, Associative
 
 ---
 
@@ -178,13 +181,16 @@ Gothya -
 - More overhead
 @ulend
 
+Note: 
+- May follow SQLalchemy presentation, perfect!
+
 ---
 
 ![](assets/img/inception.jpg)
 
 ---
 
-### Nested - Don't Die Alone!
+### Nested
 
 
 @ul[spaced text-white]
@@ -200,17 +206,14 @@ Gothya -
 ##### The farther down you go...
 ##### The faster time passes in the outside world
 
+---
+
 ![](assets/img/oldman.gif)
 
 #### Full of regret
 #### Waiting to die alone
 
 ---
-
-
-
-
-
 
 @ul[spaced text-white]
 - Gets complicated quickly
@@ -223,11 +226,13 @@ Gothya -
   - apis (e.g. google sheets)
 @ulend
 
+Note:
+We are not covering recursion today, but that is a great topic
+When using recursion, ask how readable that is for your team
+
 ---
 
-
-
-### Consuming JSON
+## Consuming JSON
 
 ---
 
@@ -238,7 +243,7 @@ Gothya -
 ```python
 import requests
 
-r = requests.get('some_dat_site')
+r = requests.get('some_data_site')
 r.json # what's the difference here
 r.text
 
@@ -250,17 +255,43 @@ type(my_data)
 
 ```
 
+Note:
+This is a typical pattern for getting data.
+
 ---
+
+### - TomTom Geocoding Example
+
+```python
+import requests
+
+r = requests.get('some_data_site')
+r.json # what's the difference here
+r.text
+
+my_data = r.json
+type(my_data)
+# dict()
+
+# Okay, we have a dict! Now what?
+
+```
+
+Note: 
+- TomTom is a great resource for batched requests
+- This example needs to be fleshed out
 
 ```python
 
-# We want to do something with that data
+import airtable
 
-# send specific values to airtable
-
-# get summary statistics from Pandas
+# try to make this call without the api
 
 ```
+
+Note:
+- Packages often abstract away things we need
+- Use discretion when a package is "too easy"
 
 --- 
 
@@ -280,19 +311,33 @@ type(my_data)
 
 ```python
 
+iterable = [1, 2, 3]
+
 [ x for x in iterable ]
 
-{ k : v for x in iterable}
+# { k : v for x in iterable}
+{str(x) : x for x in iterable}
 
-{x: x**2 for x in (2, 4, 6)}
 # this is sadly the only example I found in the psf docs :(
-
+{x: x**2 for x in (2, 4, 6)}
 
 ```
 
+Note:
+- Official documentation is sparse here, but accurate
+- Many tutorials like mine that cover patterns and gotchyas
 - that iterable could be an expression that returns an iterable (like a lambda)
-
 - most dict comps in the wild are not nearly that clean
+
+---
+
+---
+
+```python
+
+# Use dictcomp to move geocaching data into airtable
+
+```
 
 ---
 
@@ -304,9 +349,29 @@ type(my_data)
 
 - Defining a massive dictionary
 - Don't realize it's a comprehension until line 150
+- Whole thing passes JSON to the api
+
+---
+
+### The code - Basic Mapbox usage
+
+```python
+
+# Go get some mapbox tutorial code here
+
+```
+
 ---
 
 ![](assets/img/dict_example.png)
+
+Note:
+- This image is just to show highlighting in IDEs
+---
+
+## Collections and Best Practices
+
+
 
 ---
 
@@ -338,11 +403,11 @@ If default is not given, it defaults to None...
 - missing can be defined, but better to use `defaultdict` or `.get()`
 
 ---
-### Collections and Best Practices
 
----
 
 ```python
+
+my_list = [1, 2, 3]
 
 # list comps are easy to recognize
 new_list = [x.name for x in my_list]
