@@ -19,7 +19,7 @@
 ---
 
 #### This Presentation (now): 
-#### https://gitpitch.com/alphaharris/thinking-in-dictionaries
+#### https://gitpitch.com/alphaharris/effective-dictionaries
 
 ------
 
@@ -38,26 +38,29 @@
 
 #### Solved a problem with a dictionary this week?
 
-@ul[spaced text-white]
-- Performance
-- Interface
-    - now[we][can][do][this]
-- Better Code
-@ulend
-
 ---
 
-#### Who needed to 
-####  look up dictionaries this week? 
+@ul[spaced text-white]
+- Make difficult things possible
+- Interface
+    - now[we][can][do][this]
+- Cleaner, more readable Code
+- Performance 
+    - Just prefer dictionaries!
+@ulend
+
+Note:
+- We won't be talking about performance
+- Except to say that you should prefer dictionaries to lists
 
 --- 
 ### Today...
+
 @ul[spaced text-white]
 - Defining and Iterating
-- Nested Data
+- Schools of Data
 - Handling JSON
 - Comprehensions and Enhancements
-- Working with Pandas (if we have time)
 @ulend
 
 
@@ -69,7 +72,7 @@ Note:
 - Dictionaries are a powerful structure
 - Best way to learn is to get some practice!
 ---
-### TEST
+### QUIZ!! @emoji[scream]
 
 ---
 
@@ -122,13 +125,26 @@ Note:
 Show code again for review
 
 ---
-
----
 ### Why this is happening - 
 
-`for` is going to look for an iterator  `__iter__`
+- `for` is going to look for an iterator  `__iter__`
 
-"Return an iterator over the keys of the dictionary. This is a shortcut for iter(d.keys())."
+- "Return an iterator over the keys of the dictionary. This is a shortcut for iter(d.keys())."
+
+---
+
+
+@ul[spaced text-white]
+- `.items()`
+- `.keys()`
+- `.values()`
+@ulend
+
+Note: 
+- .keys() and .values() are obvious
+- .items() is a little weird
+- Using keys and values loses the utility of our association
+---
 
 - Nothing magical is happening here, we're just getting d.keys()
 
@@ -136,26 +152,35 @@ Show code again for review
 
 ---
 
-### So, what is .items() ??
+### So, what is `.items()` ??
 
-"Return a new view of the dictionary’s items ((key, value) pairs)."
+"Return a new view of the dictionary’s items (`(key, value)` pairs)."
+
+Note:
+These pairs are given to us as a Tuple
 
 ---
 
 ### What the heck is a view??
 Is that even python?
 
+---
+
 "They provide a dynamic view on the dictionary’s entries, which means that when the dictionary changes, 
 the view reflects these changes."
 
 "Keys and values are iterated over in insertion order."
 
+---
 
-Gothya - 
+### Iteration Gotchya - 
+
 "Iterating views while adding or deleting entries in the dictionary may raise a RuntimeError or fail to iterate over all entries."
+
 "Changed in version 3.7: Dictionary order is guaranteed to be insertion order."
 
-Note: 
+Note:
+- Don't alter the shape of your dictionary while iterating
 - The Python specification relies on abstractions like views
 - You may not be exposed to these abstractions unless you read the docs
 
@@ -164,7 +189,8 @@ Note:
 ## Schools of Data (Relational v. Non-relational)
 
 Note:
-- Non-relational is a misnomer
+- Now that we know about iteration, we can look at use-cases
+- Non-relational is a misnomer, not fair to define in opposition
 - Prefer Nested, Tree-like, Associative
 
 ---
@@ -177,34 +203,36 @@ Note:
 
 @ul[spaced text-white]
 - Well Explored
-- Know your schema going in (hopefully)
-- More overhead
+- Organized, Predictable Schema
+- More overhead (code, tools) less flexible
+- Changing schema can be painful
 @ulend
 
 Note: 
 - May follow SQLalchemy presentation, perfect!
 
 ---
+### Nested or Tree
 
 ![](assets/img/inception.jpg)
 
 ---
 
-### Nested
-
-
 @ul[spaced text-white]
 - Flexible, great for handling *unknowns*
-- Two-edged-sword!!
 - Deep structures will slow you down
-- Readabililty is "key"    ¯\\_(ツ)_/¯
+- Readabililty is "key"    
+- ..................... ¯\\_(ツ)_/¯
 
 @ulend
 
 ---
 
-##### The farther down you go...
+##### The deeper you go...
 ##### The faster time passes in the outside world
+
+Note:
+The movie Inception is a good analogy to nested data structures
 
 ---
 
@@ -216,7 +244,7 @@ Note:
 ---
 
 @ul[spaced text-white]
-- Gets complicated quickly
+- Get complicated quickly
 - Might need recursion... and that's okay
 - Don't be afraid to "curate"
   - one-off cherry-picking ... or ...
@@ -229,6 +257,7 @@ Note:
 Note:
 We are not covering recursion today, but that is a great topic
 When using recursion, ask how readable that is for your team
+We will look at some examples of curation shortly
 
 ---
 
@@ -260,9 +289,13 @@ This is a typical pattern for getting data.
 
 ---
 
-### - TomTom Geocoding Example
+### Geocoding Example
+
+---
 
 ```python
+
+# Go get some data from TomTom
 import requests
 
 r = requests.get('some_data_site')
@@ -281,7 +314,12 @@ Note:
 - TomTom is a great resource for batched requests
 - This example needs to be fleshed out
 
+---
+
+
 ```python
+
+# Send some data to airtable
 
 import airtable
 
@@ -292,30 +330,40 @@ import airtable
 Note:
 - Packages often abstract away things we need
 - Use discretion when a package is "too easy"
+- Airtable has a very friendly api with dynamic documentation
+- If you are ever writing API documentation, make it look like airtable
+- You can make entries from your phone!
 
 --- 
 
 ### Curating with comprehensions
 
+---
+
 - We have our data, but we need rows
 - Maybe we're sending this straight to a spreadsheet
 - Maybe we just want readable rows... for reasons!
 
-### Basic Dict comprehension template
+---
+
+### Basic Dict comprehension pattern
+
+---
 
 - Like .items, .keys, .values, this is worthy of memorization
 - Dict comps are maybe more powerful than list comps
 - Same reason that dicts are sometimes more powerful than lists
 
-### Okay the pattern!
+---
 
+### `{ <k> : <v> for i in iterable }`
 ```python
 
 iterable = [1, 2, 3]
 
 [ x for x in iterable ]
 
-# { k : v for x in iterable}
+# { k : v for x in iterable }
 {str(x) : x for x in iterable}
 
 # this is sadly the only example I found in the psf docs :(
@@ -324,6 +372,8 @@ iterable = [1, 2, 3]
 ```
 
 Note:
+- Some of the most powerful one-liners are dict comps
+- Nested, Ternary logic for total transformation
 - Official documentation is sparse here, but accurate
 - Many tutorials like mine that cover patterns and gotchyas
 - that iterable could be an expression that returns an iterable (like a lambda)
@@ -331,11 +381,15 @@ Note:
 
 ---
 
+### Curation example
+
 ---
 
 ```python
 
-# Use dictcomp to move geocaching data into airtable
+# Get data from TomTom
+
+# Send data to Airtable
 
 ```
 
@@ -345,11 +399,18 @@ Note:
 
 ---
 
-### The worst case - Dash + Mapbox
+### Worst case scenario
 
+- Dash + Mapbox
 - Defining a massive dictionary
 - Don't realize it's a comprehension until line 150
 - Whole thing passes JSON to the api
+
+Note:
+- Dash is very cool if you don't want to write JS
+- Interface has changed several times
+- Problem space is not that well-explored
+- Examples seem to come from JS Developers
 
 ---
 
@@ -380,14 +441,16 @@ Note:
 When it comes to built-ins, clicking through to source in your IDE is only
 going to give you some fake stubs (at least in the case of PyCharm)
 
+---
+
 - We must rely on our old friend, the documentation
 
 - Perhaps more importantly, run your own experiments and see how it behaves
-(or doens't behave) for yourself.
+(or doesn't behave) for yourself.
 
 "There is currently only one standard mapping type, the dictionary. "
 
-
+Note: Mapping Type is another abstraction to know about
 
 ---
 
@@ -396,6 +459,9 @@ going to give you some fake stubs (at least in the case of PyCharm)
 "Return the value for key if key is in the dictionary, else default. 
 If default is not given, it defaults to None...
 ### ...so that this method never raises a KeyError."
+
+Note:
+- This assumes you didn't introduce some other error in defining
 
 ---
 
@@ -407,13 +473,7 @@ If default is not given, it defaults to None...
 
 ```python
 
-my_list = [1, 2, 3]
-
-# list comps are easy to recognize
-new_list = [x.name for x in my_list]
-
-# How cool are dictionary comps??
-dict_from_list = { x.name : x for x in my_list}
+# optional example of .get() usage
 
 ```
 
@@ -426,39 +486,73 @@ dict_from_list = { x.name : x for x in my_list}
 - The name says what it does (supplies a default)
 - `None` doesn't break your code
 
+---
 
 ### OrderedDict
+
+@ul[spaced text-white]
 
 - Since 3.7, dictionaries are ordered out of the box
 - Mixed blessing, since most Python will be < 3.7 for some time
 - Especially in Scientific domains where Python 2 (!) is *still* popular
 
-- Better to use OrderedDict to let everyone know what's happening
-- If your logic depends on that ordering, it should be clear how and why
-- Even better to write code that doesn't rely on order
-
-#### Plenty of Real World packages use OrderedDict
-- Parsers (LXML, etc.)
-- Data APIs (along with other classes, helps to abstract away paging)
-- BeautfulSoup 
+@ulend
 
 
 ---
 
-## Conclusion 
+@ul[spaced text-white]
+
+- Better to use OrderedDict to let everyone know what's happening
+- If your logic depends on that ordering, it should be clear how and why
+- Even better to write code that doesn't rely on order
+
+@ulend
+
+---
+
+#### OrderedDict Powers Package-specific Types
+
+@ul[spaced text-white]
+
+- Parsers (LXML, etc.)
+- Data APIs (along with other classes, helps to abstract away paging)
+- BeautfulSoup 
+
+@ulend
+
+Note:
+These packages didn't throw away their OrderedDict when the built-in changed. 
+
+---
+
+## Conclusion - WYSK
+
+@ul[spaced text-white]
 
 - Focus on readability
-- Remember, remember ... the members: `.items()`, `.keys()`, `.values()`
-- Practice dictionary comps `{k:v for x in iterable}`
+- Remember, remember ... these important members: 
+- `.items()` `.keys()` `.values()`
+- Practice dictionary comps `{k:v for i in iterable}`
 - `Code[to][the][interface]`
 
-Thanks! APUG <3 <3
+@ulend
+
+---
+
+### Thanks! APUG @emoji[heart] @emoji[heart]
 
 ---
 
 ## Q/A  
 
-- Feel free to volunteer an answer
-- I can only speak to my own experience
+### aaron@kite.com
+#### https://kite.com/blog/python/python-dictionaries
 
+Note:
+- I can only speak from my own experience
+- I am not a core developer
+- Please jump in if you know better than I do!
 ---
+
+### Thanks! APUG @emoji[heart] @emoji[heart]
