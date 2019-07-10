@@ -9,6 +9,7 @@
 #
 theme : simple
 theme : night
+transition : convex
 
 # code settings
 

@@ -6,19 +6,17 @@ Try to bring down by 8 minutes w/o rushing
 
 ---
 
-#### This Presentation (now): 
+#### Slides: 
 #### https://gitpitch.com/alphaharris/effective-dictionaries
 
 ------
 
-#### Based on a True Blog Post: 
+#### Article: 
 #### https://kite.com/blog/python/python-dictionaries
 
 ---
 
----
 
-![](assets/img/skipping-steps.jpg)
 
 ---
 
@@ -35,7 +33,7 @@ Try to bring down by 8 minutes w/o rushing
 - Sometimes Realtor (not currently!)
 @ulend
 
-
+---
 
 #### Quick poll... 
 
@@ -57,6 +55,13 @@ Try to bring down by 8 minutes w/o rushing
 - Performance 
     - Just prefer dictionaries!
 @ulend
+
+
+---
+
+![](assets/img/skipping-steps.jpg)
+
+---
 
 Note:
 - We won't be talking about performance
@@ -107,9 +112,10 @@ for k, v in my_dict:
 
 ---
 
-```Python
-# ValueError: too many values to unpack (expected 2)
-```
+
+
+### `ValueError: too many values to unpack (expected 2)`
+
 
 ---
 
@@ -137,7 +143,8 @@ Show code again for review
 
 ### Remember, remember the Fifth of the Members
 
-```python
+@size[em 2]
+```python 
 members = dir(dict)
 [m for m in members if not m.startswith('__')][4]
 
@@ -239,7 +246,7 @@ Note:
 ---
 ### Nested or Tree
 
-![](assets/img/inception.jpg)
+![](assets/img/inception-small.jpg)
 
 ---
 
