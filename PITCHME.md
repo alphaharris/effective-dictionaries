@@ -132,7 +132,7 @@ Show code again for review
 
 ---
 
-### Remember, remember the Fifth Muggle Member
+### Remember, remember the Fifth of the Members
 
 ```python
 members = dir(dict)
@@ -650,9 +650,9 @@ Note:
 
 @ul[spaced text-white]
 
-- Better to use OrderedDict to let everyone know what's happening
-- If your logic depends on that ordering, it should be clear how and why
-- Even better to write code that doesn't rely on order
+- Show what's happening
+- Show *why* it needs to be ordered
+- Try not to rely on order
 
 @ulend
 
