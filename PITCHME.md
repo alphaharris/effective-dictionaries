@@ -1,5 +1,8 @@
 ## Effective Dictionaries {...}
 
+Note:
+Current time is 33 minutes
+Try to bring down by 8 minutes w/o rushing
 ---
 
 ![](assets/img/skipping-steps.jpg)
@@ -12,9 +15,12 @@
 ### aaron@kite.com
 
 #### Dev Advocate + Consultant
-(Python, JavaScript, Automation)
+(Full Stack, Focus on Data Integrations and Web Dev)
 
-(Bartending, Jury Duty ...)
+@ul
+- Former Bartender
+- Sometimes Realtor (not currently!)
+@ulend
 
 ---
 

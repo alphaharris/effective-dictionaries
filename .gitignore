@@ -110,3 +110,5 @@ venv.bak/
 .idea/workspace.xml
 assets/img/job-thoughts.html
 assets/img/job-thoughts_files/
+!/.gitignore
+/.idea/
