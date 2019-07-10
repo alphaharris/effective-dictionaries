@@ -3,6 +3,19 @@
 Note:
 Current time is 33 minutes
 Try to bring down by 8 minutes w/o rushing
+
+---
+
+#### This Presentation (now): 
+#### https://gitpitch.com/alphaharris/effective-dictionaries
+
+------
+
+#### Based on a True Blog Post: 
+#### https://kite.com/blog/python/python-dictionaries
+
+---
+
 ---
 
 ![](assets/img/skipping-steps.jpg)
@@ -22,17 +35,7 @@ Try to bring down by 8 minutes w/o rushing
 - Sometimes Realtor (not currently!)
 @ulend
 
----
 
-#### This Presentation (now): 
-#### https://gitpitch.com/alphaharris/effective-dictionaries
-
-------
-
-#### Based on a True Blog Post: 
-#### https://kite.com/blog/python/python-dictionaries
-
----
 
 #### Quick poll... 
 
