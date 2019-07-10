@@ -131,6 +131,22 @@ Note:
 Show code again for review
 
 ---
+
+### Remember, remember the Fifth Muggle Member
+
+```python
+members = dir(dict)
+[m for m in members if not m.startswith('__')][4]
+
+# >>> 'items'
+
+```
+
+---
+
+### 'items'  (:
+
+---
 ### Why this is happening - 
 
 - `for` is going to look for an iterator  `__iter__`
@@ -273,65 +289,93 @@ We will look at some examples of curation shortly
 
 ### Typical use-case with Requests
 
----
-
-```python
-import requests
-
-r = requests.get('some_data_site')
-r.json # what's the difference here
-r.text
-
-my_data = r.json
-type(my_data)
-# dict()
-
-# Okay, we have a dict! Now what?
-
-```
-
-Note:
-This is a typical pattern for getting data.
-
----
-
-### Geocoding Example
-
----
-
-```python
-
-# Go get some data from TomTom
-import requests
-
-r = requests.get('some_data_site')
-r.json # what's the difference here
-r.text
-
-my_data = r.json
-type(my_data)
-# dict()
-
-# Okay, we have a dict! Now what?
-
-```
-
 Note: 
 - TomTom is a great resource for batched requests
 - This example needs to be fleshed out
 
 ---
 
+```python
+tt_key = '123'
+
+import requests
+output = '.json?'
+endpoint = 'https://api.tomtom.com/search/2/batch' + output
+address = '701 Brazos St, Austin, TX 78701'
+
+# https://api.tomtom.com/search/2/batch.json?key=*****
+headers = {'Content-Type': 'application/json'}
+data = {
+    "batchItems": [
+        # {"query": "/geocode/ " + address + ".json"} for address in address_dicts.values()]
+        {"query": "/geocode/ " + address + ".json"}]
+}
+params = {
+    'key': tt_key,
+    # limit geography (optional)
+    'countrySet': 'US',
+    'topLeft': '30.506667,  -97.967834',
+    'bttmRight': '30.022733, -97.443237',
+}
+r = requests.post(endpoint, params=params, headers=headers, json=data)
+print(r.url)
+results = r.json()
+type(results)
+# dict()
+```
+
+---
+
+###  Okay, we have a dict! Now what?
+```python
+first_result = {'type': 'Point Address', 'id': 'US/PAD/p0/3077466', 'score': 11.9658,
+ 'address': {'streetNumber': '701', 'streetName': 'Brazos Street', 'municipalitySubdivision': 'Austin, Downtown',
+             'municipality': 'Austin', 'countrySecondarySubdivision': 'Travis', 'countryTertiarySubdivision': 'Austin',
+             'countrySubdivision': 'TX', 'postalCode': '78701', 'extendedPostalCode': '787012262', 'countryCode': 'US',
+             'country': 'United States', 'countryCodeISO3': 'USA',
+             'freeformAddress': '701 Brazos Street, Austin, TX 78701', 'localName': 'Austin',
+             'countrySubdivisionName': 'Texas'}, 'position': {'lat': 30.26895, 'lon': -97.74042},
+ 'viewport': {'topLeftPoint': {'lat': 30.26985, 'lon': -97.74146},
+              'btmRightPoint': {'lat': 30.26805, 'lon': -97.73938}},
+ 'entryPoints': [{'type': 'main', 'position': {'lat': 30.2691, 'lon': -97.74095}}]}
+```
+
+---
+
+### How to go from JSON to Pandas? 
+
+---
+
+Note:
+This is a typical pattern for getting data.
+
+---
+
 
 ```python
 
-# Send some data to airtable
+import pandas as pd
 
-import airtable
+# Pandas will do it's best to store this data
+row = pd.Series(first_result)
+print(row)
 
-# try to make this call without the api
 
 ```
+
+---
+
+```text
+type                                               Point Address
+id                                             US/PAD/p0/3077466
+score                                                    11.9658
+address        {'streetNumber': '701', 'streetName': 'Brazos ...
+position                     {'lat': 30.26895, 'lon': -97.74042}
+viewport       {'topLeftPoint': {'lat': 30.26985, 'lon': -97....
+entryPoints    [{'type': 'main', 'position': {'lat': 30.2691,...
+dtype: object
+```
+
 
 Note:
 - Packages often abstract away things we need
@@ -391,11 +435,61 @@ Note:
 
 ---
 
+```text
+type                                               Point Address
+id                                             US/PAD/p0/3077466
+score                                                    11.9658
+address        {'streetNumber': '701', 'streetName': 'Brazos ...
+position                     {'lat': 30.26895, 'lon': -97.74042}
+viewport       {'topLeftPoint': {'lat': 30.26985, 'lon': -97....
+entryPoints    [{'type': 'main', 'position': {'lat': 30.2691,...
+dtype: object
+```
+
+---
+
+`{ k: y for i in <iterable>}`
+
 ```python
 
-# Get data from TomTom
+# What we want for each address match
+row = {
+    'type': '...',
+    'streetName': '...',
+    'lat': '...',
+    'lon': '...',
+}
 
-# Send data to Airtable
+```
+
+---
+
+
+```python
+
+# How we get it
+
+table = {results.index(r): {
+    'type': r['type'],
+    'streetName': r['address']['streetName'],
+    'lat': r['position']['lat'],
+    'lon': r['position']['lon'],
+} for r in results}
+
+# results is a list, so we don't need .items()
+
+```
+
+
+---
+
+
+```python
+{0: {'lat': 30.26895,
+     'lon': -97.74042,
+     'streetName': 'Brazos Street',
+     'type': 'Point Address'}}
+# Now that will taste good to Pandas
 
 ```
 
@@ -424,9 +518,65 @@ Note:
 
 ```python
 
-# Go get some mapbox tutorial code here
+def bigfoot_map(sightings):
+    # groupby returns a dictionary mapping the values of the first field 
+    # 'classification' onto a list of record dictionaries with that 
+    # classification value.
+    classifications = groupby('classification', sightings)
+    return {
+        "data": [
+                {
+                    "type": "scattermapbox",
+                    "lat": listpluck("latitude", class_sightings),
+                    "lon": listpluck("longitude", class_sightings),
+                    "text": listpluck("title", class_sightings),
+                    "mode": "markers",
+                    "name": classification,
+                    "marker": {
+                        "size": 3,
+                        "opacity": 1.0
+                    }
+                    # ... forever in some cases
+                }
+                for classification, class_sightings in classifications.items()
+                #... this goes on for a while
+                ]
+                }
+              
+```
+
+Note:
+- notice the expressions in the calls
+- can you tell this api 
+
+---
+
+### Good place to use dict() constructor for readability
+
+```python
+
+data : [
+    dict(
+        type="scattermapbox",
+        lat=listpluck("latitude", class_sightings),
+        lon=listpluck("longitude", class_sightings),
+        text=listpluck("title", class_sightings),
+        mode="markers",
+        name=classification,
+        marker={
+            size: 3,
+            opacity: 1.0}
+    )
+]
+# ... forever
 
 ```
+
+Note:
+- Better highlighting
+- Eliminates some indentation
+- Eliminates quotets
+- IMHO this is more readable in *some* cases
 
 ---
 
@@ -434,11 +584,10 @@ Note:
 
 Note:
 - This image is just to show highlighting in IDEs
+
 ---
 
 ## Collections and Best Practices
-
-
 
 ---
 
@@ -476,14 +625,6 @@ Note:
 
 ---
 
-
-```python
-
-# optional example of .get() usage
-
-```
-
----
 
 
 ### defaultdict
@@ -562,3 +703,5 @@ Note:
 ---
 
 ### Thanks! APUG @emoji[heart] @emoji[heart]
+
+---

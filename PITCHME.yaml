@@ -13,12 +13,12 @@ theme : night
 # code settings
 
 theme-code : [ "Source Code Pro" ]
-code-line-numbers : true
-# highlight : Dark
+code-line-numbers : false
+#highlight : Dark
 highlight : Github
-# highlight: Monokai
-# highlight: Ascetic
-# highlight: mono-blue
+#highlight: Monokai
+#highlight: Ascetic
+#highlight: mono-blue
 
 #
 # Theme-Override Setting
